@@ -29,7 +29,7 @@ const router = async () => {
     let page = routes[parsedURL] ? routes[parsedURL] : Error404
     content.innerHTML = await page.render();
     await page.after_render();
-  
+
 }
 
 // Listen on hash change:
@@ -108,19 +108,19 @@ let Register = {
 
 let getPost = async (id) => {
     const options = {
-       method: 'GET',
-       headers: {
-           'Content-Type': 'application/json'
-       }
-   };
-   try {
-       const response = await fetch(`https://5bb634f6695f8d001496c082.mockapi.io/api/posts/` + id, options)
-       const json = await response.json();
-       // console.log(json)
-       return json
-   } catch (err) {
-       console.log('Error getting documents', err)
-   }
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+};
+try {
+    const response = await fetch(`https://5bb634f6695f8d001496c082.mockapi.io/api/posts/` + id, options)
+    const json = await response.json();
+    // console.log(json)
+    return json
+} catch (err) {
+    console.log('Error getting documents', err)
+}
 }
 
 let PostShow = {
@@ -150,38 +150,38 @@ let PostShow = {
 
 let getPostsList = async () => {
     const options = {
-       method: 'GET',
-       headers: {
-           'Content-Type': 'application/json'
-       }
-   };
-   try {
-       //const response = await fetch(`https://5bb634f6695f8d001496c082.mockapi.io/api/posts`, options)
-       //console.log(json)
-       return json
-   } catch (err) {
-       console.log('Error getting documents', err)
-   }
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+};
+try {
+    //const response = await fetch(`https://5bb634f6695f8d001496c082.mockapi.io/api/posts`, options)
+    //console.log(json)
+    return json
+} catch (err) {
+    console.log('Error getting documents', err)
+}
 }
 
 let Home = {
-   render : async () => {
-       let posts = await getPostsList()
-       let view =  /*html*/`
-           <section class="section">
-               <h1> Home </h1>
-               <ul>
-                   ${ posts.map(post => 
-                       /*html*/`<li><a href="#/p/${post.id}">${post.title}</a></li>`
-                       ).join('\n ')
-                   }
-               </ul>
-           </section>
-       `
-       return view
-   }
-   , after_render: async () => {
-   }
+render : async () => {
+    let posts = await getPostsList()
+    let view =  /*html*/`
+        <section class="section">
+            <h1> Home </h1>
+            <ul>
+                ${ posts.map(post => 
+                    /*html*/`<li><a href="#/p/${post.id}">${post.title}</a></li>`
+                    ).join('\n ')
+                }
+            </ul>
+        </section>
+    `
+    return view
+}
+, after_render: async () => {
+}
 
 }
 //error
@@ -216,13 +216,67 @@ let About = {
         
 }
 
+let Login = {
+
+
+    render: async () => {
+        return /*html*/ `
+            <section class="section">
+                <div>
+                    <h1> <b> Welcome </b> </h1> <br>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left has-icons-right">
+                        <input class="input" id="email_input" type="email" placeholder="Enter your Email">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <span class="icon is-small is-right">
+                            <i class="fas fa-check"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control has-icons-left">
+                        <input class="input" id="pass_input" type="password" placeholder="Enter a Password">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="field">
+                    <p class="control">
+                        <button class="button is-primary" id="login_submit_btn">
+                        Login
+                        </button>
+                    </p>
+                </div>
+
+            </section>
+        `
+    }
+    , after_render: async () => {
+        document.getElementById("login_submit_btn").addEventListener ("click",  () => {
+            let email       = document.getElementById("email_input");
+            let pass        = document.getElementById("pass_input");
+            
+            if (email.value =='' | pass.value == '') {
+                alert (`The fields cannot be empty`)
+            } else {
+                //Add functionality
+            }    
+        })
+    }
+
+}
+
 
 
 // navbar
 let Navbar = {
     render: async () => {
         let view =  /*html*/`
-             <nav class="navbar" role="navigation" aria-label="main navigation">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
                 <div class="container">
                     <div class="navbar-brand">
                         <a class="navbar-item" href="/#/">
@@ -254,7 +308,7 @@ let Navbar = {
                                     <a class="button is-primary" href="/#/register">
                                         <strong>Sign up</strong>
                                     </a>
-                                    <a class="button is-light">
+                                    <a class="button is-light" href = "/#/login">
                                         Log in
                                     </a>
                                 </div>
@@ -326,4 +380,6 @@ const routes = {
     , '/about'      : About
     , '/p/:id'      : PostShow
     , '/register'   : Register
+    , '/login'   : Login
+
 };
