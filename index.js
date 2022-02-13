@@ -117,7 +117,7 @@ let getPost = async (id) => {
 };
 try {
     const response = await fetch(`https://5bb634f6695f8d001496c082.mockapi.io/api/posts/` + id, options)
-    const json = await response.json();
+    
     // console.log(json)
     return json
 } catch (err) {
@@ -209,7 +209,11 @@ render : async () => {
 
 
 function editPost(){
-    console.log("hide the pain");
+
+    let posts = await getPostsList();
+
+    posts.find()
+    
 }
 //error
 
@@ -274,7 +278,7 @@ let Login = {
                 </div>
                 <div class="field">
                     <p class="control">
-                    <a id = "login_submit_btn"class="button is-light" href = "/#/">
+                    <a class = "button is-primary" id = "login_submit_btn"class="button is-light" href = "/#/P">
                         Log in
                     </a>
                     </p>
